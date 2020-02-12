@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     
     var label = UILabel()
     var reloadLabel = UILabel()
-    
+
     override var prefersStatusBarHidden : Bool {
         return true
     }
@@ -30,7 +30,7 @@ class ViewController: UIViewController {
         
         addReloadLabel(withText: "RELOAD")
         addLabel(withText: "MULTI 1")
-        
+
         view.insertSubview(graphView, belowSubview: reloadLabel)
         
         setupConstraints()
@@ -69,9 +69,9 @@ class ViewController: UIViewController {
         
         let rightConstraint = NSLayoutConstraint(item: label, attribute: NSLayoutConstraint.Attribute.right, relatedBy: NSLayoutConstraint.Relation.equal, toItem: view, attribute: NSLayoutConstraint.Attribute.right, multiplier: 1, constant: -20)
         
-        let topConstraint = NSLayoutConstraint(item: label, attribute: NSLayoutConstraint.Attribute.top, relatedBy: NSLayoutConstraint.Relation.equal, toItem: view, attribute: NSLayoutConstraint.Attribute.top, multiplier: 1, constant: 20)
+        let topConstraint = NSLayoutConstraint(item: label, attribute: NSLayoutConstraint.Attribute.top, relatedBy: NSLayoutConstraint.Relation.equal, toItem: view, attribute: NSLayoutConstraint.Attribute.top, multiplier: 1, constant: 25)
         
-        let heightConstraint = NSLayoutConstraint(item: label, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 40)
+        let heightConstraint = NSLayoutConstraint(item: label, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 30)
         let widthConstraint = NSLayoutConstraint(item: label, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: label.frame.width * 1.5)
         
         let tapGestureRecogniser = UITapGestureRecognizer(target: self, action: #selector(didTap))
@@ -89,9 +89,9 @@ class ViewController: UIViewController {
         
         let leftConstraint = NSLayoutConstraint(item: reloadLabel, attribute: NSLayoutConstraint.Attribute.left, relatedBy: NSLayoutConstraint.Relation.equal, toItem: view, attribute: NSLayoutConstraint.Attribute.left, multiplier: 1, constant: 20)
         
-        let topConstraint = NSLayoutConstraint(item: reloadLabel, attribute: NSLayoutConstraint.Attribute.top, relatedBy: NSLayoutConstraint.Relation.equal, toItem: view, attribute: NSLayoutConstraint.Attribute.top, multiplier: 1, constant: 20)
+        let topConstraint = NSLayoutConstraint(item: reloadLabel, attribute: NSLayoutConstraint.Attribute.top, relatedBy: NSLayoutConstraint.Relation.equal, toItem: view, attribute: NSLayoutConstraint.Attribute.top, multiplier: 1, constant: 25)
         
-        let heightConstraint = NSLayoutConstraint(item: reloadLabel, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 40)
+        let heightConstraint = NSLayoutConstraint(item: reloadLabel, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 30)
         let widthConstraint = NSLayoutConstraint(item: reloadLabel, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: reloadLabel.frame.width * 1.5)
         
         let tapGestureRecogniser = UITapGestureRecognizer(target: self, action: #selector(reloadDidTap))
@@ -100,7 +100,8 @@ class ViewController: UIViewController {
         view.insertSubview(reloadLabel, aboveSubview: graphView)
         view.addConstraints([leftConstraint, topConstraint, heightConstraint, widthConstraint])
     }
-    
+
+
     private func createLabel(withText text: String) -> UILabel {
         let label = UILabel()
         
@@ -132,40 +133,19 @@ class ViewController: UIViewController {
         
         switch(currentGraphType) {
             
-        case .simple: // Show simple graph, no adapting, single line.
-            graphView = examples.createSimpleGraph(view.frame)
-            addReloadLabel(withText: "RELOAD")
-            addLabel(withText: "SIMPLE")
-        case .multiOne: // Show graph with multiple plots, with adapting and using dot plots to decorate the line
-            graphView = examples.createMultiPlotGraphOne(view.frame)
-            addReloadLabel(withText: "RELOAD")
-            addLabel(withText: "MULTI 1")
-        case .multiTwo:
-            graphView = examples.createMultiPlotGraphTwo(view.frame)
-            addReloadLabel(withText: "RELOAD")
-            addLabel(withText: "MULTI 2")
-        case .dark:
-            graphView = examples.createDarkGraph(view.frame)
-            addReloadLabel(withText: "RELOAD")
-            addLabel(withText: "DARK")
-        case .dot:
-            graphView = examples.createDotGraph(view.frame)
-            addReloadLabel(withText: "RELOAD")
-            addLabel(withText: "DOT")
-        case .bar:
-            graphView = examples.createBarGraph(view.frame)
-            addReloadLabel(withText: "RELOAD")
-            addLabel(withText: "BAR")
-        case .pink:
-            graphView = examples.createPinkGraph(view.frame)
-            addReloadLabel(withText: "RELOAD")
-            addLabel(withText: "PINK")
-        case .blueOrange:
-            graphView = examples.createBlueOrangeGraph(view.frame)
-            addReloadLabel(withText: "RELOAD")
-            addLabel(withText: "BLUE ORANGE")
+        case .simple: graphView = examples.createSimpleGraph(view.frame)
+        case .multiOne: graphView = examples.createMultiPlotGraphOne(view.frame)
+        case .multiTwo: graphView = examples.createMultiPlotGraphTwo(view.frame)
+        case .dark: graphView = examples.createDarkGraph(view.frame)
+        case .dot: graphView = examples.createDotGraph(view.frame)
+        case .bar: graphView = examples.createBarGraph(view.frame)
+        case .pink: graphView = examples.createPinkGraph(view.frame)
+        case .blueOrange: graphView = examples.createBlueOrangeGraph(view.frame)
         }
-        
+
+        addReloadLabel(withText: "RELOAD")
+        addLabel(withText: currentGraphType.title)
+
         view.insertSubview(graphView, belowSubview: reloadLabel)
         
         setupConstraints()

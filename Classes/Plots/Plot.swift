@@ -5,6 +5,7 @@ open class Plot {
     
     // The id for this plot. Used when determining which data to give it in the dataSource
     open var identifier: String!
+    open var shouldShowLabels: Bool = false
     
     weak var graphViewDrawingDelegate: ScrollableGraphViewDrawingDelegate! = nil
     
@@ -27,6 +28,16 @@ open class Plot {
     /// If adaptAnimationType is set to .Custom, then this is the easing function you would like applied for the animation.
     open var customAnimationEasingFunction: ((_ t: Double) -> Double)?
     
+    // Labels
+    // #####################
+
+    /// The font to be used for the value label.
+    open var labelFont = UIFont.systemFont(ofSize: 8)
+    /// The colour of the value label font.
+    open var labelColor: UIColor = UIColor.black
+    /// How far to offset the vertical position of the label.
+    open var labelVerticalOffset: CGFloat = 0
+
     // Private Animation State
     // #######################
     

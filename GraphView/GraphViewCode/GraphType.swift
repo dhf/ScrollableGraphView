@@ -19,21 +19,42 @@ enum GraphType {
     mutating func next() {
         switch(self) {
         case .simple:
-            self = GraphType.multiOne
+            self = .multiOne
         case .multiOne:
-            self = GraphType.multiTwo
+            self = .multiTwo
         case .multiTwo:
-            self = GraphType.dark
+            self = .dark
         case .dark:
-            self = GraphType.bar
+            self = .bar
         case .bar:
-            self = GraphType.dot
+            self = .dot
         case .dot:
-            self = GraphType.pink
+            self = .pink
         case .pink:
-            self = GraphType.blueOrange
+            self = .blueOrange
         case .blueOrange:
-            self = GraphType.simple
+            self = .simple
+        }
+    }
+
+    var title: String {
+        switch(self) {
+        case .simple:
+            return "SIMPLE"
+        case .multiOne:
+            return "MULTI 1"
+        case .multiTwo:
+            return "MULTI 2"
+        case .dark:
+            return "DARK"
+        case .bar:
+            return "BAR"
+        case .dot:
+            return "DOT"
+        case .pink:
+            return "PINK"
+        case .blueOrange:
+            return "BLUE ORANGE"
         }
     }
 }
