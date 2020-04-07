@@ -288,8 +288,8 @@ import UIKit
             var referenceLineBottomMargin = bottomMargin
             
             // Have to adjust the bottom line if we are showing data point labels (x-axis).
-            if(referenceLines.shouldShowLabels && referenceLines.dataPointLabelFont != nil) {
-                referenceLineBottomMargin += (referenceLines.dataPointLabelFont!.pointSize + referenceLines.dataPointLabelTopMargin + referenceLines.dataPointLabelBottomMargin)
+            if(referenceLines.shouldShowLabels) {
+                referenceLineBottomMargin += (maxLabelSize.height + referenceLines.dataPointLabelTopMargin + referenceLines.dataPointLabelBottomMargin)
             }
             
             referenceLineView?.removeFromSuperview()
@@ -317,10 +317,8 @@ import UIKit
         var availableGraphHeight = frame.height
         availableGraphHeight = availableGraphHeight - topMargin - bottomMargin
         
-        if let referenceLines = referenceLines {
-            if(referenceLines.shouldShowLabels && referenceLines.dataPointLabelFont != nil) {
-                availableGraphHeight -= (referenceLines.dataPointLabelFont!.pointSize + referenceLines.dataPointLabelTopMargin + referenceLines.dataPointLabelBottomMargin)
-            }
+        if let referenceLines = referenceLines, referenceLines.shouldShowLabels {
+            availableGraphHeight -= maxLabelSize.height + referenceLines.dataPointLabelTopMargin + referenceLines.dataPointLabelBottomMargin
         }
         
         if availableGraphHeight > 0 {
@@ -795,6 +793,8 @@ import UIKit
         }
     }
     
+    private var maxLabelSize: CGSize = .zero
+    
     // Labels
     // TODO in 4.1: refactor all label adding & positioning code.
     
@@ -823,8 +823,12 @@ import UIKit
                 label.text = dataSource?.label(atIndex: point)
             }
             
-            label.layoutIfNeeded()
-            let labelSize = label.systemLayoutSizeFitting(.zero, withHorizontalFittingPriority: .fittingSizeLevel, verticalFittingPriority: .fittingSizeLevel)
+            let labelSize = label.calculatedSize()
+            
+            maxLabelSize = CGSize(
+                width: Swift.max(maxLabelSize.width, labelSize.width),
+                height: Swift.max(maxLabelSize.height, labelSize.height)
+            )
             
             // self.range.min is the current ranges minimum that has been detected
             // self.rangeMin is the minimum that should be used as specified by the user
@@ -833,7 +837,14 @@ import UIKit
             
             label.frame = CGRect(origin: CGPoint(x: position.x - labelSize.width / 2, y: position.y + ref.dataPointLabelTopMargin), size: labelSize)
             
-            let _ = labelsView.subviews.filter { $0.frame == label.frame }.map { $0.removeFromSuperview() }
+            print("\(#function) label frame after manual calculation: \(label.frame)")
+            
+            labelsView.subviews.forEach {
+                guard $0.frame == label.frame else {
+                    return
+                }
+                $0.removeFromSuperview()
+            }
             
             labelsView.addSubview(label)
         }
@@ -907,7 +918,7 @@ import UIKit
         
         if let ref = self.referenceLines {
             if(ref.shouldShowLabels && ref.dataPointLabelFont != nil) {
-                graphHeight -= (ref.dataPointLabelFont!.pointSize + ref.dataPointLabelTopMargin + ref.dataPointLabelBottomMargin)
+                graphHeight -= (maxLabelSize.height + ref.dataPointLabelTopMargin + ref.dataPointLabelBottomMargin)
             }
         }
         
@@ -1031,3 +1042,18 @@ public extension ScrollableGraphView : ScrollableGraphViewDataSource {
 }
 #endif
 
+private extension UIView {
+    func calculatedSize() -> CGSize {
+        layoutIfNeeded()
+        
+        let size = systemLayoutSizeFitting(
+            .zero,
+            withHorizontalFittingPriority: .fittingSizeLevel,
+            verticalFittingPriority: .fittingSizeLevel
+        )
+        
+        print("\(#function) calculated label size: \(size)")
+        
+        return size
+    }
+}
