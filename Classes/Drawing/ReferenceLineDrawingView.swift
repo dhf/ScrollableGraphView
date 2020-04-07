@@ -169,9 +169,14 @@ internal class ReferenceLineDrawingView : UIView {
     
     private func addLine(withTag tag: String, from: CGPoint, to: CGPoint, in path: UIBezierPath) {
         
-        let boundingSize = self.boundingSize(forText: tag)
         let leftLabel = createLabel(withText: tag)
         let rightLabel = createLabel(withText: tag)
+        
+        let boundingSize = leftLabel.systemLayoutSizeFitting(
+            .zero,
+            withHorizontalFittingPriority: .fittingSizeLevel,
+            verticalFittingPriority: .fittingSizeLevel
+        )
         
         // Left label gap.
         leftLabel.frame = CGRect(
