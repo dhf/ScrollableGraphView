@@ -813,10 +813,15 @@ import UIKit
         // Grab an unused label and update it to the right position for the newly activated poitns
         for point in activatedPoints {
             let label = labelPool.activateLabel(forPointIndex: point)
-            
-            label.text = (dataSource?.label(atIndex: point) ?? "")
             label.textColor = ref.dataPointLabelColor
             label.font = ref.dataPointLabelFont
+            
+            if let attributedText = dataSource?.attributedLabel(atIndex: point) {
+                label.attributedText = attributedText
+            }
+            else {
+                label.text = dataSource?.label(atIndex: point)
+            }
             
             label.sizeToFit()
             
