@@ -172,11 +172,9 @@ internal class ReferenceLineDrawingView : UIView {
         let leftLabel = createLabel(withText: tag)
         let rightLabel = createLabel(withText: tag)
         
-        let boundingSize = leftLabel.systemLayoutSizeFitting(
-            .zero,
-            withHorizontalFittingPriority: .fittingSizeLevel,
-            verticalFittingPriority: .fittingSizeLevel
-        )
+        leftLabel.sizeToFit()
+        
+        let boundingSize = leftLabel.bounds.size
         
         // Left label gap.
         leftLabel.frame = CGRect(
