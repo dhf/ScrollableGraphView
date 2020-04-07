@@ -1,14 +1,12 @@
 
 import UIKit
 
-internal class LabelPool {
+internal final class LabelPool {
+    private(set) var labels    = [UILabel]()
+    private(set) var relations = [Int: Int]()
+    private(set) var unused    = [Int]()
     
-    var labels = [UILabel]()
-    var relations = [Int : Int]()
-    var unused = [Int]()
-    
-    func deactivateLabel(forPointIndex pointIndex: Int){
-        
+    func deactivateLabel(forPointIndex pointIndex: Int) {
         if let unusedLabelIndex = relations[pointIndex] {
             unused.append(unusedLabelIndex)
         }
@@ -17,37 +15,33 @@ internal class LabelPool {
     
     @discardableResult
     func activateLabel(forPointIndex pointIndex: Int) -> UILabel {
-        var label: UILabel
-        
-        if(unused.count >= 1) {
-            let unusedLabelIndex = unused.first!
-            unused.removeFirst()
+        guard let unusedLabelIndex = unused.first else {
+            let newLabel = UILabel()
+            newLabel.numberOfLines = 0
+            newLabel.textAlignment = .center
             
-            label = labels[unusedLabelIndex]
-            relations[pointIndex] = unusedLabelIndex
-        }
-        else {
-            label = UILabel()
-            labels.append(label)
-            let newLabelIndex = labels.index(of: label)!
+            let newLabelIndex = labels.count
+            labels.insert(newLabel, at: newLabelIndex)
             relations[pointIndex] = newLabelIndex
+            
+            return newLabel
         }
         
-        return label
+        let reuseLabel = labels[unusedLabelIndex]
+        relations[pointIndex] = unusedLabelIndex
+        
+        return reuseLabel
     }
     
     var activeLabels: [UILabel] {
-        get {
-            
-            var currentlyActive = [UILabel]()
-            let numberOfLabels = labels.count
-            
-            for i in 0 ..< numberOfLabels {
-                if(!unused.contains(i)) {
-                    currentlyActive.append(labels[i])
-                }
+        var currentlyActive = [UILabel]()
+        let numberOfLabels = labels.count
+        
+        for i in 0 ..< numberOfLabels {
+            if !unused.contains(i) {
+                currentlyActive.append(labels[i])
             }
-            return currentlyActive
         }
+        return currentlyActive
     }
 }
