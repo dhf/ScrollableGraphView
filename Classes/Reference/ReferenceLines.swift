@@ -48,9 +48,9 @@ open class ReferenceLines {
     /// The units that the y-axis is in. This string is used for labels on the reference lines.
     @IBInspectable open var referenceLineUnits: String?
     /// The number of decimal places that should be shown on the reference line labels.
-    @IBInspectable open var referenceLineNumberOfDecimalPlaces: Int = 1
+    @IBInspectable open var referenceLineNumberOfDecimalPlaces: Int = 0
     /// The NSNumberFormatterStyle that reference lines should use to display
-    @IBInspectable open var referenceLineNumberStyle: NumberFormatter.Style = .decimal
+    @IBInspectable open var referenceLineNumberStyle: NumberFormatter.Style = .none
     
     // Data Point Labels // TODO: Refactor these into their own settings and allow for more label options (positioning)
     // ################################################################################################################
