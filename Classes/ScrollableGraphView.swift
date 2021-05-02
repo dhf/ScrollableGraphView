@@ -835,6 +835,7 @@ import UIKit
             let _ = labelsView.subviews.filter { $0.frame == label.frame }.map { $0.removeFromSuperview() }
             
             labelsView.addSubview(label)
+            accessibilityElements = labelsView.subviews + (referenceLineView?.subviews ?? [])
         }
     }
     
