@@ -15,9 +15,9 @@ internal final class LabelPool {
     
     @discardableResult
     func activateLabel(forPointIndex pointIndex: Int) -> UILabel {
-        guard let unusedLabelIndex = unused.first else {
+        guard let unusedLabelIndex = unused.popLast() else {
             let newLabel = UILabel()
-            newLabel.numberOfLines = 0
+            newLabel.numberOfLines = 1
             newLabel.textAlignment = .center
             
             let newLabelIndex = labels.count
