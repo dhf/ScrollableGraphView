@@ -10,7 +10,7 @@ open class ReferenceLines {
     /// Whether or not to show the y-axis reference lines and labels.
     @IBInspectable open var shouldShowReferenceLines: Bool = true
     /// The colour for the reference lines.
-    @IBInspectable open var referenceLineColor: UIColor = UIColor.black
+    @IBInspectable open var referenceLineColor: UIColor = .black
     /// The thickness of the reference lines.
     @IBInspectable open var referenceLineThickness: CGFloat = 0.5
     
@@ -41,7 +41,7 @@ open class ReferenceLines {
     /// The font to be used for the reference line labels.
     open var referenceLineLabelFont = UIFont.systemFont(ofSize: 8)
     /// The colour of the reference line labels.
-    @IBInspectable open var referenceLineLabelColor: UIColor = UIColor.black
+    @IBInspectable open var referenceLineLabelColor: UIColor = .black
     
     /// Whether or not to show the units on the reference lines.
     @IBInspectable open var shouldShowReferenceLineUnits: Bool = true
@@ -62,9 +62,9 @@ open class ReferenceLines {
     /// How far from the bottom of the view the data point labels should be rendered.
     @IBInspectable open var dataPointLabelBottomMargin: CGFloat = 0
     /// The font for the data point labels.
-    @IBInspectable open var dataPointLabelColor: UIColor = UIColor.black
+    @IBInspectable open var dataPointLabelColor: UIColor = .black
     /// The colour for the data point labels.
-    open var dataPointLabelFont: UIFont? = UIFont.systemFont(ofSize: 10)
+    open var dataPointLabelFont: UIFont? = .systemFont(ofSize: 10)
     /// Used to force the graph to show every n-th dataPoint label
     @IBInspectable open var dataPointLabelsSparsity: Int = 1
     
@@ -72,7 +72,6 @@ open class ReferenceLines {
         // Need this for external frameworks.
     }
 }
-
 
 @objc public enum ScrollableGraphViewReferenceLinePosition : Int {
     case left

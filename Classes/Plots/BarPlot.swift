@@ -1,21 +1,19 @@
-
 import UIKit
 
 open class BarPlot : Plot {
-    
     // Customisation
     // #############
     
     /// The width of an individual bar on the graph.
     open var barWidth: CGFloat = 25;
     /// The actual colour of the bar.
-    open var barColor: UIColor = UIColor.gray
+    open var barColor = UIColor.gray
     /// The width of the outline of the bar
     open var barLineWidth: CGFloat = 1
     /// The colour of the bar outline
-    open var barLineColor: UIColor = UIColor.darkGray
+    open var barLineColor = UIColor.darkGray
     /// Whether the bars should be drawn with rounded corners
-    open var shouldRoundBarCorners: Bool = false
+    open var shouldRoundBarCorners = false
     
     // Private State
     // #############

@@ -1,26 +1,32 @@
-
 import UIKit
 
-internal final class LabelPool {
+struct LabelPool {
     private(set) var labels    = [UILabel]()
     private(set) var relations = [Int: Int]()
-    private(set) var unused    = [Int]()
+    private(set) var unused    = Set<Int>()
+
+    var activeLabels: [UILabel] {
+        zip(labels.indices, labels)
+            .lazy
+            .filter { !unused.contains($0.0) }
+            .map { $0.1 }
+    }
     
-    func deactivateLabel(forPointIndex pointIndex: Int) {
-        if let unusedLabelIndex = relations[pointIndex] {
-            unused.append(unusedLabelIndex)
-        }
-        relations[pointIndex] = nil
+    mutating func deactivateLabel(forPointIndex pointIndex: Int) {
+        guard let unusedLabelIndex = relations.removeValue(forKey: pointIndex)
+        else { return }
+        let inserted = unused.insert(unusedLabelIndex).inserted
+        assert(inserted)
     }
     
     @discardableResult
-    func activateLabel(forPointIndex pointIndex: Int) -> UILabel {
-        guard let unusedLabelIndex = unused.popLast() else {
+    mutating func activateLabel(forPointIndex pointIndex: Int) -> UILabel {
+        guard let unusedLabelIndex = unused.popFirst() else {
             let newLabel = UILabel()
             newLabel.numberOfLines = 1
             newLabel.textAlignment = .center
             
-            let newLabelIndex = labels.count
+            let newLabelIndex = labels.endIndex
             labels.insert(newLabel, at: newLabelIndex)
             relations[pointIndex] = newLabelIndex
             
@@ -31,17 +37,5 @@ internal final class LabelPool {
         relations[pointIndex] = unusedLabelIndex
         
         return reuseLabel
-    }
-    
-    var activeLabels: [UILabel] {
-        var currentlyActive = [UILabel]()
-        let numberOfLabels = labels.count
-        
-        for i in 0 ..< numberOfLabels {
-            if !unused.contains(i) {
-                currentlyActive.append(labels[i])
-            }
-        }
-        return currentlyActive
     }
 }

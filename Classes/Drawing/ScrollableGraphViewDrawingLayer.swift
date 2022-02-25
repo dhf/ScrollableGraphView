@@ -1,8 +1,6 @@
-
 import UIKit
 
 internal class ScrollableGraphViewDrawingLayer : CAShapeLayer {
-    
     var offset: CGFloat = 0 {
         didSet {
             offsetDidChange()
@@ -23,27 +21,28 @@ internal class ScrollableGraphViewDrawingLayer : CAShapeLayer {
         self.viewportWidth = viewportWidth
         self.viewportHeight = viewportHeight
         
-        self.frame = CGRect(origin: CGPoint(x: offset, y: 0), size: CGSize(width: self.viewportWidth, height: self.viewportHeight))
+        self.frame = CGRect(origin: CGPoint(x: offset, y: 0),
+                            size: CGSize(width: viewportWidth, height: viewportHeight))
         
         setup()
     }
-    
+
+    @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     private func setup() {
         // Get rid of any animations.
-        self.actions = ["position" : NSNull(), "bounds" : NSNull()]
+        actions = ["position": NSNull(), "bounds": NSNull()]
     }
     
     private func offsetDidChange() {
-        self.frame.origin.x = offset
-        self.bounds.origin.x = offset
+        frame.origin.x = offset
+        bounds.origin.x = offset
     }
     
     func updatePath() {
-        fatalError("updatePath needs to be implemented by the subclass")
+        assertionFailure("updatePath needs to be implemented by the subclass")
     }
 }
-

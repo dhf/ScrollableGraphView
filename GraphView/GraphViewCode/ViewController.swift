@@ -39,25 +39,15 @@ class ViewController: UIViewController {
     // MARK: Constraints
     
     private func setupConstraints() {
-        guard let graphView = self.graphView else { return }
+        guard let graphView = graphView else { return }
         graphView.translatesAutoresizingMaskIntoConstraints = false
-        graphConstraints.removeAll()
-        
-        let topConstraint = NSLayoutConstraint(item: graphView, attribute: NSLayoutConstraint.Attribute.top, relatedBy: NSLayoutConstraint.Relation.equal, toItem: view, attribute: NSLayoutConstraint.Attribute.top, multiplier: 1, constant: 0)
-        let rightConstraint = NSLayoutConstraint(item: graphView, attribute: NSLayoutConstraint.Attribute.right, relatedBy: NSLayoutConstraint.Relation.equal, toItem: view, attribute: NSLayoutConstraint.Attribute.right, multiplier: 1, constant: 0)
-        let bottomConstraint = NSLayoutConstraint(item: graphView, attribute: NSLayoutConstraint.Attribute.bottom, relatedBy: NSLayoutConstraint.Relation.equal, toItem: view, attribute: NSLayoutConstraint.Attribute.bottom, multiplier: 1, constant: 0)
-        let leftConstraint = NSLayoutConstraint(item: graphView, attribute: NSLayoutConstraint.Attribute.left, relatedBy: NSLayoutConstraint.Relation.equal, toItem: view, attribute: NSLayoutConstraint.Attribute.left, multiplier: 1, constant: 0)
-        
-        //let heightConstraint = NSLayoutConstraint(item: self.graphView, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: view, attribute: NSLayoutAttribute.Height, multiplier: 1, constant: 0)
-        
-        graphConstraints.append(topConstraint)
-        graphConstraints.append(bottomConstraint)
-        graphConstraints.append(leftConstraint)
-        graphConstraints.append(rightConstraint)
-        
-        //graphConstraints.append(heightConstraint)
-        
-        view.addConstraints(graphConstraints)
+        graphConstraints = [
+            graphView.topAnchor.constraint(equalTo: view.topAnchor),
+            graphView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            graphView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            graphView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+        ]
+        NSLayoutConstraint.activate(graphConstraints)
     }
     
     // Adding and updating the graph switching label in the top right corner of the screen.
@@ -67,18 +57,16 @@ class ViewController: UIViewController {
         label = createLabel(withText: text)
         label.isUserInteractionEnabled = true
         
-        let rightConstraint = NSLayoutConstraint(item: label, attribute: NSLayoutConstraint.Attribute.right, relatedBy: NSLayoutConstraint.Relation.equal, toItem: view, attribute: NSLayoutConstraint.Attribute.right, multiplier: 1, constant: -20)
-        
-        let topConstraint = NSLayoutConstraint(item: label, attribute: NSLayoutConstraint.Attribute.top, relatedBy: NSLayoutConstraint.Relation.equal, toItem: view, attribute: NSLayoutConstraint.Attribute.top, multiplier: 1, constant: 25)
-        
-        let heightConstraint = NSLayoutConstraint(item: label, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 30)
-        let widthConstraint = NSLayoutConstraint(item: label, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: label.frame.width * 1.5)
+        let rightConstraint = label.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+        let topConstraint = label.topAnchor.constraint(equalTo: view.topAnchor, constant: 25)
+        let heightConstraint = label.heightAnchor.constraint(equalToConstant: 30)
+        let widthConstraint = label.widthAnchor.constraint(equalToConstant: label.frame.width * 1.5)
         
         let tapGestureRecogniser = UITapGestureRecognizer(target: self, action: #selector(didTap))
         label.addGestureRecognizer(tapGestureRecogniser)
         
         view.insertSubview(label, aboveSubview: reloadLabel)
-        view.addConstraints([rightConstraint, topConstraint, heightConstraint, widthConstraint])
+        NSLayoutConstraint.activate([rightConstraint, topConstraint, heightConstraint, widthConstraint])
     }
     
     private func addReloadLabel(withText text: String) {
@@ -87,18 +75,17 @@ class ViewController: UIViewController {
         reloadLabel = createLabel(withText: text)
         reloadLabel.isUserInteractionEnabled = true
         
-        let leftConstraint = NSLayoutConstraint(item: reloadLabel, attribute: NSLayoutConstraint.Attribute.left, relatedBy: NSLayoutConstraint.Relation.equal, toItem: view, attribute: NSLayoutConstraint.Attribute.left, multiplier: 1, constant: 20)
-        
-        let topConstraint = NSLayoutConstraint(item: reloadLabel, attribute: NSLayoutConstraint.Attribute.top, relatedBy: NSLayoutConstraint.Relation.equal, toItem: view, attribute: NSLayoutConstraint.Attribute.top, multiplier: 1, constant: 25)
-        
-        let heightConstraint = NSLayoutConstraint(item: reloadLabel, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 30)
-        let widthConstraint = NSLayoutConstraint(item: reloadLabel, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: reloadLabel.frame.width * 1.5)
+        let leftConstraint = reloadLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20)
+        let topConstraint = reloadLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 25)
+
+        let heightConstraint = reloadLabel.heightAnchor.constraint(equalToConstant: 30)
+        let widthConstraint = reloadLabel.widthAnchor.constraint(equalToConstant: reloadLabel.frame.width * 1.5)
         
         let tapGestureRecogniser = UITapGestureRecognizer(target: self, action: #selector(reloadDidTap))
         reloadLabel.addGestureRecognizer(tapGestureRecogniser)
         
         view.insertSubview(reloadLabel, aboveSubview: graphView)
-        view.addConstraints([leftConstraint, topConstraint, heightConstraint, widthConstraint])
+        NSLayoutConstraint.activate([leftConstraint, topConstraint, heightConstraint, widthConstraint])
     }
 
 
@@ -114,8 +101,7 @@ class ViewController: UIViewController {
         
         label.layer.cornerRadius = 2
         label.clipsToBounds = true
-        
-        
+
         label.translatesAutoresizingMaskIntoConstraints = false
         label.sizeToFit()
         

@@ -1,8 +1,6 @@
-
 import UIKit
 
 open class LinePlot : Plot {
-    
     // Public settings for the LinePlot
     // ################################
     
@@ -10,7 +8,7 @@ open class LinePlot : Plot {
     open var lineWidth: CGFloat = 2
     
     /// The color of the graph line. UIColor.
-    open var lineColor: UIColor = UIColor.black
+    open var lineColor = UIColor.black
     
     /// Whether the line is straight or curved.
     open var lineStyle_: Int {
@@ -26,18 +24,17 @@ open class LinePlot : Plot {
     open var lineStyle = ScrollableGraphViewLineStyle.straight
     
     /// How each segment in the line should connect. Takes any of the Core Animation LineJoin values.
-    open var lineJoin: String = convertFromCAShapeLayerLineJoin(CAShapeLayerLineJoin.round)
+    open var lineJoin = CAShapeLayerLineJoin.round
     
     /// The line caps. Takes any of the Core Animation LineCap values.
-    open var lineCap: String = convertFromCAShapeLayerLineCap(CAShapeLayerLineCap.round)
+    open var lineCap = CAShapeLayerLineCap.round
     open var lineCurviness: CGFloat = 0.5
-    
     
     // Fill Settings
     // #############
     
     /// Specifies whether or not the plotted graph should be filled with a colour or gradient.
-    open var shouldFill: Bool = false
+    open var shouldFill = false
     
     var fillType_: Int {
         get { return fillType.rawValue }
@@ -52,13 +49,13 @@ open class LinePlot : Plot {
     open var fillType = ScrollableGraphViewFillType.solid
     
     /// If fillType is set to .Solid then this colour will be used to fill the graph.
-    open var fillColor: UIColor = UIColor.black
+    open var fillColor = UIColor.black
     
     /// If fillType is set to .Gradient then this will be the starting colour for the gradient.
-    open var fillGradientStartColor: UIColor = UIColor.white
+    open var fillGradientStartColor = UIColor.white
     
     /// If fillType is set to .Gradient, then this will be the ending colour for the gradient.
-    open var fillGradientEndColor: UIColor = UIColor.black
+    open var fillGradientEndColor = UIColor.black
     
     open var fillGradientType_: Int {
         get { return fillGradientType.rawValue }
@@ -90,24 +87,33 @@ open class LinePlot : Plot {
     }
     
     private func createLayers(viewport: CGRect) {
-        
         // Create the line drawing layer.
-        lineLayer = LineDrawingLayer(frame: viewport, lineWidth: lineWidth, lineColor: lineColor, lineStyle: lineStyle, lineJoin: lineJoin, lineCap: lineCap, shouldFill: shouldFill, lineCurviness: lineCurviness)
+        let newLineLayer = LineDrawingLayer(frame: viewport,
+                                            lineWidth: lineWidth,
+                                            lineColor: lineColor,
+                                            lineStyle: lineStyle,
+                                            lineJoin: lineJoin,
+                                            lineCap: lineCap,
+                                            shouldFill: shouldFill,
+                                            lineCurviness: lineCurviness)
+        lineLayer = newLineLayer
         
         // Depending on whether we want to fill with solid or gradient, create the layer accordingly.
         
         // Gradient and Fills
-        switch (self.fillType) {
-            
-        case .solid:
-            if(shouldFill) {
-                // Setup fill
-                fillLayer = FillDrawingLayer(frame: viewport, fillColor: fillColor, lineDrawingLayer: lineLayer!)
-            }
-            
-        case .gradient:
-            if(shouldFill) {
-                gradientLayer = GradientDrawingLayer(frame: viewport, startColor: fillGradientStartColor, endColor: fillGradientEndColor, gradientType: fillGradientType, lineDrawingLayer: lineLayer!)
+        if shouldFill {
+            switch fillType {
+            case .solid:
+                fillLayer = FillDrawingLayer(frame: viewport,
+                                             fillColor: fillColor,
+                                             lineDrawingLayer: newLineLayer)
+
+            case .gradient:
+                gradientLayer = GradientDrawingLayer(frame: viewport,
+                                                     startColor: fillGradientStartColor,
+                                                     endColor: fillGradientEndColor,
+                                                     gradientType: fillGradientType,
+                                                     lineDrawingLayer: newLineLayer)
             }
         }
         
@@ -130,14 +136,4 @@ open class LinePlot : Plot {
 @objc public enum ScrollableGraphViewGradientType : Int {
     case linear
     case radial
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromCAShapeLayerLineJoin(_ input: CAShapeLayerLineJoin) -> String {
-	return input.rawValue
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromCAShapeLayerLineCap(_ input: CAShapeLayerLineCap) -> String {
-	return input.rawValue
 }

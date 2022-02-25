@@ -1,4 +1,3 @@
-
 import UIKit
 
 // An extension to UIColor which adds a class function that returns a UIColor from the provided hex string. The colours are cached.

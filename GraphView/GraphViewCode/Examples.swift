@@ -14,19 +14,19 @@ class Examples : ScrollableGraphViewDataSource {
     private var numberOfDataItems = 29
 
     // Data for graphs with a single plot
-    private lazy var simpleLinePlotData: [Double] = self.generateRandomData(self.numberOfDataItems, max: 100, shouldIncludeOutliers: false)
-    private lazy var darkLinePlotData: [Double] = self.generateRandomData(self.numberOfDataItems, max: 50, shouldIncludeOutliers: true)
-    private lazy var dotPlotData: [Double] =  self.generateRandomData(self.numberOfDataItems, variance: 4, from: 25)
-    private lazy var barPlotData: [Double] =  self.generateRandomData(self.numberOfDataItems, max: 100, shouldIncludeOutliers: false)
-    private lazy var pinkLinePlotData: [Double] =  self.generateRandomData(self.numberOfDataItems, max: 100, shouldIncludeOutliers: false)
+    private lazy var simpleLinePlotData: [Double] = generateRandomData(numberOfDataItems, max: 100, shouldIncludeOutliers: false)
+    private lazy var darkLinePlotData: [Double] = generateRandomData(numberOfDataItems, max: 50, shouldIncludeOutliers: true)
+    private lazy var dotPlotData: [Double] =  generateRandomData(numberOfDataItems, variance: 4, from: 25)
+    private lazy var barPlotData: [Double] =  generateRandomData(numberOfDataItems, max: 100, shouldIncludeOutliers: false)
+    private lazy var pinkLinePlotData: [Double] =  generateRandomData(numberOfDataItems, max: 100, shouldIncludeOutliers: false)
     
     // Data for graphs with multiple plots
-    private lazy var blueLinePlotData: [Double] = self.generateRandomData(self.numberOfDataItems, max: 50)
-    private lazy var orangeLinePlotData: [Double] =  self.generateRandomData(self.numberOfDataItems, max: 40, shouldIncludeOutliers: false)
+    private lazy var blueLinePlotData: [Double] = generateRandomData(numberOfDataItems, max: 50)
+    private lazy var orangeLinePlotData: [Double] =  generateRandomData(numberOfDataItems, max: 40, shouldIncludeOutliers: false)
     
     // Labels for the x-axis
     
-    private lazy var xAxisLabels: [String] =  self.generateSequentialLabels(self.numberOfDataItems, text: "FEB")
+    private lazy var xAxisLabels: [String] =  generateSequentialLabels(numberOfDataItems, text: "FEB")
     
     // MARK: ScrollableGraphViewDataSource protocol
     // #########################################################
@@ -120,49 +120,49 @@ class Examples : ScrollableGraphViewDataSource {
         // Setup the first plot.
         let blueLinePlot = LinePlot(identifier: "multiBlue")
         
-        blueLinePlot.lineColor = UIColor.colorFromHex(hexString: "#16aafc")
-        blueLinePlot.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
+        blueLinePlot.lineColor = .colorFromHex(hexString: "#16aafc")
+        blueLinePlot.adaptAnimationType = .elastic
         blueLinePlot.shouldShowLabels = true
         blueLinePlot.labelVerticalOffset = -10
         blueLinePlot.labelColor = .white
         
         // dots on the line
         let blueDotPlot = DotPlot(identifier: "multiBlueDot")
-        blueDotPlot.dataPointType = ScrollableGraphViewDataPointType.circle
+        blueDotPlot.dataPointType = .circle
         blueDotPlot.dataPointSize = 5
-        blueDotPlot.dataPointFillColor = UIColor.colorFromHex(hexString: "#16aafc")
+        blueDotPlot.dataPointFillColor = .colorFromHex(hexString: "#16aafc")
 
-        blueDotPlot.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
+        blueDotPlot.adaptAnimationType = .elastic
         
         // Setup the second plot.
         let orangeLinePlot = LinePlot(identifier: "multiOrange")
         
-        orangeLinePlot.lineColor = UIColor.colorFromHex(hexString: "#ff7d78")
-        orangeLinePlot.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
+        orangeLinePlot.lineColor = .colorFromHex(hexString: "#ff7d78")
+        orangeLinePlot.adaptAnimationType = .elastic
         orangeLinePlot.labelVerticalOffset = -10
         orangeLinePlot.shouldShowLabels = true
         orangeLinePlot.labelColor = .white
 
         // squares on the line
         let orangeSquarePlot = DotPlot(identifier: "multiOrangeSquare")
-        orangeSquarePlot.dataPointType = ScrollableGraphViewDataPointType.square
+        orangeSquarePlot.dataPointType = .square
         orangeSquarePlot.dataPointSize = 5
-        orangeSquarePlot.dataPointFillColor = UIColor.colorFromHex(hexString: "#ff7d78")
+        orangeSquarePlot.dataPointFillColor = .colorFromHex(hexString: "#ff7d78")
         
-        orangeSquarePlot.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
+        orangeSquarePlot.adaptAnimationType = .elastic
         
         // Setup the reference lines.
         let referenceLines = ReferenceLines()
         
-        referenceLines.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 8)
-        referenceLines.referenceLineColor = UIColor.white.withAlphaComponent(0.2)
-        referenceLines.referenceLineLabelColor = UIColor.white
+        referenceLines.referenceLineLabelFont = .boldSystemFont(ofSize: 8)
+        referenceLines.referenceLineColor = .white.withAlphaComponent(0.2)
+        referenceLines.referenceLineLabelColor = .white
         referenceLines.relativePositions = [0, 0.2, 0.4, 0.6, 0.8, 1]
         
-        referenceLines.dataPointLabelColor = UIColor.white.withAlphaComponent(1)
+        referenceLines.dataPointLabelColor = .white.withAlphaComponent(1)
         
         // Setup the graph
-        graphView.backgroundFillColor = UIColor.colorFromHex(hexString: "#333333")
+        graphView.backgroundFillColor = .colorFromHex(hexString: "#333333")
         
         graphView.dataPointSpacing = 80
         
@@ -191,43 +191,43 @@ class Examples : ScrollableGraphViewDataSource {
         let blueLinePlot = LinePlot(identifier: "multiBlue")
         
         blueLinePlot.lineWidth = 1
-        blueLinePlot.lineColor = UIColor.colorFromHex(hexString: "#16aafc")
-        blueLinePlot.lineStyle = ScrollableGraphViewLineStyle.smooth
+        blueLinePlot.lineColor = .colorFromHex(hexString: "#16aafc")
+        blueLinePlot.lineStyle = .smooth
         blueLinePlot.labelVerticalOffset = -10
         blueLinePlot.labelColor = .white
 
         blueLinePlot.shouldFill = true
-        blueLinePlot.fillType = ScrollableGraphViewFillType.solid
-        blueLinePlot.fillColor = UIColor.colorFromHex(hexString: "#16aafc").withAlphaComponent(0.5)
+        blueLinePlot.fillType = .solid
+        blueLinePlot.fillColor = .colorFromHex(hexString: "#16aafc").withAlphaComponent(0.5)
         
-        blueLinePlot.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
+        blueLinePlot.adaptAnimationType = .elastic
         
         // Setup the second line plot.
         let orangeLinePlot = LinePlot(identifier: "multiOrange")
         
         orangeLinePlot.lineWidth = 1
-        orangeLinePlot.lineColor = UIColor.colorFromHex(hexString: "#ff7d78")
-        orangeLinePlot.lineStyle = ScrollableGraphViewLineStyle.smooth
+        orangeLinePlot.lineColor = .colorFromHex(hexString: "#ff7d78")
+        orangeLinePlot.lineStyle = .smooth
         orangeLinePlot.labelVerticalOffset = -10
         orangeLinePlot.labelColor = .white
 
         orangeLinePlot.shouldFill = true
-        orangeLinePlot.fillType = ScrollableGraphViewFillType.solid
-        orangeLinePlot.fillColor = UIColor.colorFromHex(hexString: "#ff7d78").withAlphaComponent(0.5)
+        orangeLinePlot.fillType = .solid
+        orangeLinePlot.fillColor = .colorFromHex(hexString: "#ff7d78").withAlphaComponent(0.5)
         
-        orangeLinePlot.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
+        orangeLinePlot.adaptAnimationType = .elastic
         
         // Setup the reference lines.
         let referenceLines = ReferenceLines()
         
-        referenceLines.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 8)
-        referenceLines.referenceLineColor = UIColor.white.withAlphaComponent(0.2)
-        referenceLines.referenceLineLabelColor = UIColor.white
+        referenceLines.referenceLineLabelFont = .boldSystemFont(ofSize: 8)
+        referenceLines.referenceLineColor = .white.withAlphaComponent(0.2)
+        referenceLines.referenceLineLabelColor = .white
         
-        referenceLines.dataPointLabelColor = UIColor.white.withAlphaComponent(1)
+        referenceLines.dataPointLabelColor = .white.withAlphaComponent(1)
         
         // Setup the graph
-        graphView.backgroundFillColor = UIColor.colorFromHex(hexString: "#333333")
+        graphView.backgroundFillColor = .colorFromHex(hexString: "#333333")
         
         graphView.dataPointSpacing = 80
         graphView.shouldAnimateOnStartup = true
@@ -251,42 +251,42 @@ class Examples : ScrollableGraphViewDataSource {
         let linePlot = LinePlot(identifier: "darkLine")
         
         linePlot.lineWidth = 1
-        linePlot.lineColor = UIColor.colorFromHex(hexString: "#777777")
-        linePlot.lineStyle = ScrollableGraphViewLineStyle.smooth
+        linePlot.lineColor = .colorFromHex(hexString: "#777777")
+        linePlot.lineStyle = .smooth
         linePlot.labelVerticalOffset = -10
         linePlot.labelColor = .white
 
         
         linePlot.shouldFill = true
-        linePlot.fillType = ScrollableGraphViewFillType.gradient
-        linePlot.fillGradientType = ScrollableGraphViewGradientType.linear
-        linePlot.fillGradientStartColor = UIColor.colorFromHex(hexString: "#555555")
-        linePlot.fillGradientEndColor = UIColor.colorFromHex(hexString: "#444444")
+        linePlot.fillType = .gradient
+        linePlot.fillGradientType = .linear
+        linePlot.fillGradientStartColor = .colorFromHex(hexString: "#555555")
+        linePlot.fillGradientEndColor = .colorFromHex(hexString: "#444444")
         
-        linePlot.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
+        linePlot.adaptAnimationType = .elastic
         
         let dotPlot = DotPlot(identifier: "darkLineDot") // Add dots as well.
         dotPlot.dataPointSize = 2
-        dotPlot.dataPointFillColor = UIColor.white
+        dotPlot.dataPointFillColor = .white
         
-        dotPlot.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
+        dotPlot.adaptAnimationType = .elastic
         
         // Setup the reference lines.
         let referenceLines = ReferenceLines()
         
-        referenceLines.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 8)
-        referenceLines.referenceLineColor = UIColor.white.withAlphaComponent(0.2)
-        referenceLines.referenceLineLabelColor = UIColor.white
+        referenceLines.referenceLineLabelFont = .boldSystemFont(ofSize: 8)
+        referenceLines.referenceLineColor = .white.withAlphaComponent(0.2)
+        referenceLines.referenceLineLabelColor = .white
         
         referenceLines.positionType = .absolute
         // Reference lines will be shown at these values on the y-axis.
         referenceLines.absolutePositions = [10, 20, 25, 30]
         referenceLines.includeMinMax = false
         
-        referenceLines.dataPointLabelColor = UIColor.white.withAlphaComponent(0.5)
+        referenceLines.dataPointLabelColor = .white.withAlphaComponent(0.5)
         
         // Setup the graph
-        graphView.backgroundFillColor = UIColor.colorFromHex(hexString: "#333333")
+        graphView.backgroundFillColor = .colorFromHex(hexString: "#333333")
         graphView.dataPointSpacing = 80
         
         graphView.shouldAnimateOnStartup = true
@@ -315,25 +315,25 @@ class Examples : ScrollableGraphViewDataSource {
         
         barPlot.barWidth = 25
         barPlot.barLineWidth = 1
-        barPlot.barLineColor = UIColor.colorFromHex(hexString: "#777777")
-        barPlot.barColor = UIColor.colorFromHex(hexString: "#555555")
+        barPlot.barLineColor = .colorFromHex(hexString: "#777777")
+        barPlot.barColor = .colorFromHex(hexString: "#555555")
         barPlot.labelVerticalOffset = -10
         barPlot.labelColor = .white
 
-        barPlot.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
+        barPlot.adaptAnimationType = .elastic
         barPlot.animationDuration = 1.5
         
         // Setup the reference lines
         let referenceLines = ReferenceLines()
         
-        referenceLines.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 8)
-        referenceLines.referenceLineColor = UIColor.white.withAlphaComponent(0.2)
-        referenceLines.referenceLineLabelColor = UIColor.white
+        referenceLines.referenceLineLabelFont = .boldSystemFont(ofSize: 8)
+        referenceLines.referenceLineColor = .white.withAlphaComponent(0.2)
+        referenceLines.referenceLineLabelColor = .white
         
-        referenceLines.dataPointLabelColor = UIColor.white.withAlphaComponent(0.5)
+        referenceLines.dataPointLabelColor = .white.withAlphaComponent(0.5)
         
         // Setup the graph
-        graphView.backgroundFillColor = UIColor.colorFromHex(hexString: "#333333")
+        graphView.backgroundFillColor = .colorFromHex(hexString: "#333333")
         
         graphView.shouldAnimateOnStartup = true
         
@@ -358,22 +358,22 @@ class Examples : ScrollableGraphViewDataSource {
         let plot = DotPlot(identifier: "dot")
         
         plot.dataPointSize = 5
-        plot.dataPointFillColor = UIColor.white
+        plot.dataPointFillColor = .white
         plot.labelVerticalOffset = -10
         plot.labelColor = .white
 
         
         // Setup the reference lines
         let referenceLines = ReferenceLines()
-        referenceLines.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 10)
-        referenceLines.referenceLineColor = UIColor.white.withAlphaComponent(0.5)
-        referenceLines.referenceLineLabelColor = UIColor.white
-        referenceLines.referenceLinePosition = ScrollableGraphViewReferenceLinePosition.both
+        referenceLines.referenceLineLabelFont = .boldSystemFont(ofSize: 10)
+        referenceLines.referenceLineColor = .white.withAlphaComponent(0.5)
+        referenceLines.referenceLineLabelColor = .white
+        referenceLines.referenceLinePosition = .both
         
         referenceLines.shouldShowLabels = false
         
         // Setup the graph
-        graphView.backgroundFillColor = UIColor.colorFromHex(hexString: "#00BFFF")
+        graphView.backgroundFillColor = .colorFromHex(hexString: "#00BFFF")
         graphView.shouldAdaptRange = false
         graphView.shouldAnimateOnAdapt = false
         graphView.shouldAnimateOnStartup = false
@@ -398,9 +398,9 @@ class Examples : ScrollableGraphViewDataSource {
         // Setup the plot
         let linePlot = LinePlot(identifier: "pinkLine")
         
-        linePlot.lineColor = UIColor.clear
+        linePlot.lineColor = .clear
         linePlot.shouldFill = true
-        linePlot.fillColor = UIColor.colorFromHex(hexString: "#FF0080")
+        linePlot.fillColor = .colorFromHex(hexString: "#FF0080")
         linePlot.labelVerticalOffset = -10
         linePlot.labelColor = .white
 
@@ -408,17 +408,17 @@ class Examples : ScrollableGraphViewDataSource {
         let referenceLines = ReferenceLines()
         
         referenceLines.referenceLineThickness = 1
-        referenceLines.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 10)
-        referenceLines.referenceLineColor = UIColor.white.withAlphaComponent(0.5)
-        referenceLines.referenceLineLabelColor = UIColor.white
-        referenceLines.referenceLinePosition = ScrollableGraphViewReferenceLinePosition.both
+        referenceLines.referenceLineLabelFont = .boldSystemFont(ofSize: 10)
+        referenceLines.referenceLineColor = .white.withAlphaComponent(0.5)
+        referenceLines.referenceLineLabelColor = .white
+        referenceLines.referenceLinePosition = .both
         
-        referenceLines.dataPointLabelFont = UIFont.boldSystemFont(ofSize: 10)
-        referenceLines.dataPointLabelColor = UIColor.white
+        referenceLines.dataPointLabelFont = .boldSystemFont(ofSize: 10)
+        referenceLines.dataPointLabelColor = .white
         referenceLines.dataPointLabelsSparsity = 3
         
         // Setup the graph
-        graphView.backgroundFillColor = UIColor.colorFromHex(hexString: "#222222")
+        graphView.backgroundFillColor = .colorFromHex(hexString: "#222222")
         
         graphView.dataPointSpacing = 60
         graphView.shouldAdaptRange = true
@@ -436,38 +436,38 @@ class Examples : ScrollableGraphViewDataSource {
         let blueLinePlot = LinePlot(identifier: "multiBlue")
         
         blueLinePlot.lineWidth = 5
-        blueLinePlot.lineColor = UIColor.colorFromHex(hexString: "#16aafc")
-        blueLinePlot.lineStyle = ScrollableGraphViewLineStyle.smooth
+        blueLinePlot.lineColor = .colorFromHex(hexString: "#16aafc")
+        blueLinePlot.lineStyle = .smooth
         
         blueLinePlot.shouldFill = false
-        blueLinePlot.fillType = ScrollableGraphViewFillType.solid
-        blueLinePlot.fillColor = UIColor.colorFromHex(hexString: "#16aafc").withAlphaComponent(0.5)
+        blueLinePlot.fillType = .solid
+        blueLinePlot.fillColor = .colorFromHex(hexString: "#16aafc").withAlphaComponent(0.5)
         blueLinePlot.labelVerticalOffset = -10
         
-        blueLinePlot.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
+        blueLinePlot.adaptAnimationType = .elastic
         
         // Setup the second line plot.
         let orangeLinePlot = LinePlot(identifier: "multiOrange")
         
         orangeLinePlot.lineWidth = 5
-        orangeLinePlot.lineColor = UIColor.colorFromHex(hexString: "#ff7d78")
-        orangeLinePlot.lineStyle = ScrollableGraphViewLineStyle.smooth
+        orangeLinePlot.lineColor = .colorFromHex(hexString: "#ff7d78")
+        orangeLinePlot.lineStyle = .smooth
         orangeLinePlot.labelVerticalOffset = -10
 
         orangeLinePlot.shouldFill = false
-        orangeLinePlot.fillType = ScrollableGraphViewFillType.solid
-        orangeLinePlot.fillColor = UIColor.colorFromHex(hexString: "#ff7d78").withAlphaComponent(0.5)
+        orangeLinePlot.fillType = .solid
+        orangeLinePlot.fillColor = .colorFromHex(hexString: "#ff7d78").withAlphaComponent(0.5)
         
-        orangeLinePlot.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
+        orangeLinePlot.adaptAnimationType = .elastic
         
         // Customise the reference lines.
         let referenceLines = ReferenceLines()
         
-        referenceLines.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 8)
-        referenceLines.referenceLineColor = UIColor.black.withAlphaComponent(0.2)
-        referenceLines.referenceLineLabelColor = UIColor.black
+        referenceLines.referenceLineLabelFont = .boldSystemFont(ofSize: 8)
+        referenceLines.referenceLineColor = .black.withAlphaComponent(0.2)
+        referenceLines.referenceLineLabelColor = .black
         
-        referenceLines.dataPointLabelColor = UIColor.black.withAlphaComponent(1)
+        referenceLines.dataPointLabelColor = .black.withAlphaComponent(1)
         
         // All other graph customisation is done in Interface Builder,
         // e.g, the background colour would be set in interface builder rather than in code.
@@ -488,18 +488,18 @@ class Examples : ScrollableGraphViewDataSource {
         // numberOfDataItems = 30
         
         // data for graphs with a single plot
-        simpleLinePlotData = self.generateRandomData(self.numberOfDataItems, max: 100, shouldIncludeOutliers: false)
-        darkLinePlotData = self.generateRandomData(self.numberOfDataItems, max: 50, shouldIncludeOutliers: true)
-        dotPlotData = self.generateRandomData(self.numberOfDataItems, variance: 4, from: 25)
-        barPlotData = self.generateRandomData(self.numberOfDataItems, max: 100, shouldIncludeOutliers: false)
-        pinkLinePlotData = self.generateRandomData(self.numberOfDataItems, max: 100, shouldIncludeOutliers: false)
+        simpleLinePlotData = generateRandomData(numberOfDataItems, max: 100, shouldIncludeOutliers: false)
+        darkLinePlotData = generateRandomData(numberOfDataItems, max: 50, shouldIncludeOutliers: true)
+        dotPlotData = generateRandomData(numberOfDataItems, variance: 4, from: 25)
+        barPlotData = generateRandomData(numberOfDataItems, max: 100, shouldIncludeOutliers: false)
+        pinkLinePlotData = generateRandomData(numberOfDataItems, max: 100, shouldIncludeOutliers: false)
         
         // data for graphs with multiple plots
-        blueLinePlotData = self.generateRandomData(self.numberOfDataItems, max: 50)
-        orangeLinePlotData = self.generateRandomData(self.numberOfDataItems, max: 40, shouldIncludeOutliers: false)
+        blueLinePlotData = generateRandomData(numberOfDataItems, max: 50)
+        orangeLinePlotData = generateRandomData(numberOfDataItems, max: 40, shouldIncludeOutliers: false)
         
         // update labels
-        xAxisLabels = self.generateSequentialLabels(self.numberOfDataItems, text: "MAR")
+        xAxisLabels = generateSequentialLabels(numberOfDataItems, text: "MAR")
     }
     
     private func generateRandomData(_ numberOfItems: Int, max: Double, shouldIncludeOutliers: Bool = true) -> [Double] {

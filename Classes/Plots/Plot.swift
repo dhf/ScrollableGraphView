@@ -1,13 +1,11 @@
-
 import UIKit
 
 open class Plot {
-    
     // The id for this plot. Used when determining which data to give it in the dataSource
     open var identifier: String!
-    open var shouldShowLabels: Bool = false
+    open var shouldShowLabels = false
     
-    weak var graphViewDrawingDelegate: ScrollableGraphViewDrawingDelegate! = nil
+    weak var graphViewDrawingDelegate: ScrollableGraphViewDrawingDelegate!
     
     // Animation Settings
     // ##################
@@ -34,7 +32,7 @@ open class Plot {
     /// The font to be used for the value label.
     open var labelFont = UIFont.systemFont(ofSize: 8)
     /// The colour of the value label font.
-    open var labelColor: UIColor = UIColor.black
+    open var labelColor = UIColor.black
     /// How far to offset the vertical position of the label.
     open var labelVerticalOffset: CGFloat = 0
 
@@ -63,7 +61,7 @@ open class Plot {
     // ####################
     
     // Animation update loop for co-domain changes.
-    @objc private func animationUpdate() {
+    @objc dynamic private func animationUpdate() {
         let dt = timeSinceLastFrame()
         
         for animation in currentAnimations {
@@ -88,7 +86,7 @@ open class Plot {
     }
     
     private func getAnimationEasing() -> (Double) -> Double {
-        switch(self.adaptAnimationType) {
+        switch adaptAnimationType  {
         case .elastic:
             return Easings.easeOutElastic
         case .easeOut:
@@ -104,12 +102,15 @@ open class Plot {
             return Easings.easeOutQuad
         }
     }
+
+    private func updateDisplayLink(to value: Bool) {
+        if currentAnimations.isEmpty {
+            displayLink.isPaused = value
+        }
+    }
     
     private func enqueue(animation: GraphPointAnimation) {
-        if (currentAnimations.count == 0) {
-            // Need to kick off the loop.
-            displayLink.isPaused = false
-        }
+        updateDisplayLink(to: false)
         currentAnimations.append(animation)
     }
     
@@ -117,11 +118,7 @@ open class Plot {
         if let index = currentAnimations.firstIndex(of: animation) {
             currentAnimations.remove(at: index)
         }
-        
-        if(currentAnimations.count == 0) {
-            // Stop animation loop.
-            displayLink.isPaused = true
-        }
+        updateDisplayLink(to: true)
     }
     
     internal func dequeueAllAnimations() {
@@ -140,31 +137,20 @@ open class Plot {
         } else {
             previousTimestamp = currentTimestamp
         }
-        
         currentTimestamp = displayLink.timestamp
-        
-        var dt = currentTimestamp - previousTimestamp
-        
-        if dt > 0.032 {
-            dt = 0.032
-        }
-        
-        return dt
+        return min(currentTimestamp - previousTimestamp, 0.032)
     }
     
-    internal func startAnimations(forPoints pointsToAnimate: CountableRange<Int>, withData data: [Double], withStaggerValue stagger: Double) {
-        
+    internal func startAnimations(forPoints pointsToAnimate: CountableRange<Int>,
+                                  withData data: [Double],
+                                  withStaggerValue stagger: Double) {
         animatePlotPointPositions(forPoints: pointsToAnimate, withData: data, withDelay: stagger)
     }
     
     internal func createPlotPoints(numberOfPoints: Int, range: (min: Double, max: Double)) {
         for i in 0 ..< numberOfPoints {
-            
-            let value = range.min
-            
-            let position = graphViewDrawingDelegate.calculatePosition(atIndex: i, value: value)
-            let point = GraphPoint(position: position)
-            graphPoints.append(point)
+            let position = graphViewDrawingDelegate.calculatePosition(atIndex: i, value: range.min)
+            graphPoints.append(GraphPoint(position: position))
         }
     }
     
@@ -172,15 +158,11 @@ open class Plot {
     // they will come on screen at the incorrect position.
     // Needs to be called when the active interval has changed and during initial setup.
     internal func setPlotPointPositions(forNewlyActivatedPoints newPoints: CountableRange<Int>, withData data: [Double]) {
-        
-        for i in newPoints.startIndex ..< newPoints.endIndex {
+        for i in newPoints.indices {
             // e.g.
             // indices: 10...20
             // data positions: 0...10 = // 0 to (end - start)
-            let dataPosition = i - newPoints.startIndex
-            
-            let value = data[dataPosition]
-            
+            let value = data[i - newPoints.startIndex]
             let newPosition = graphViewDrawingDelegate.calculatePosition(atIndex: i, value: value)
             graphPoints[i].x = newPosition.x
             graphPoints[i].y = newPosition.y
@@ -189,10 +171,8 @@ open class Plot {
     
     // Same as a above, but can take an array with the indicies of the activated points rather than a range.
     internal func setPlotPointPositions(forNewlyActivatedPoints activatedPoints: [Int], withData data: [Double]) {
-        
         var index = 0
         for activatedPointIndex in activatedPoints {
-            
             let dataPosition = index
             let value = data[dataPosition]
             
@@ -220,7 +200,7 @@ open class Plot {
     
     internal func setup() {
         displayLink = CADisplayLink(target: self, selector: #selector(animationUpdate))
-        displayLink.add(to: RunLoop.main, forMode: RunLoop.Mode.common)
+        displayLink.add(to: .main, forMode: .common)
         displayLink.isPaused = true
     }
     
@@ -248,11 +228,3 @@ open class Plot {
     case elastic
     case custom
 }
-
-
-
-
-
-
-
-

@@ -1,4 +1,3 @@
-
 import UIKit
 
 // Delegate definition that provides the data required by the drawing layers.

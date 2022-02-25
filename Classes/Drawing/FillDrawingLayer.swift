@@ -1,4 +1,3 @@
-
 import UIKit
 
 internal class FillDrawingLayer : ScrollableGraphViewDrawingLayer {
@@ -8,17 +7,17 @@ internal class FillDrawingLayer : ScrollableGraphViewDrawingLayer {
     private var lineDrawingLayer: LineDrawingLayer
     
     init(frame: CGRect, fillColor: UIColor, lineDrawingLayer: LineDrawingLayer) {
-        
         self.lineDrawingLayer = lineDrawingLayer
         super.init(viewportWidth: frame.size.width, viewportHeight: frame.size.height)
         self.fillColor = fillColor.cgColor
     }
-    
+
+    @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     override func updatePath() {
-        self.path = lineDrawingLayer.createLinePath().cgPath
+        path = lineDrawingLayer.createLinePath().cgPath
     }
 }
