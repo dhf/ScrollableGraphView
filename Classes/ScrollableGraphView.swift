@@ -725,6 +725,12 @@ import UIKit
                 label.text = dataSource?.label(atIndex: point)
             }
             
+            if let str = label.text, str.contains("\n") {
+                label.numberOfLines = 0
+            } else {
+                label.numberOfLines = 1
+            }
+            
             label.sizeToFit()
             
             // self.range.min is the current ranges minimum that has been detected
