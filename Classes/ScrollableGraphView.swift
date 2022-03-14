@@ -729,6 +729,9 @@ import UIKit
                 label.numberOfLines = str.numberOfLines
             }
             
+            // sizeToFit does not calculate correctly. The current width of the frame sets the maximum width when sizeToFit() is called. So we have to "reset" frame width to a large number before calling sizeToFit().
+            label.frame = CGRect(origin: CGPoint(x: 0, y: 0),
+                                 size: CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude) )
             label.sizeToFit()
             
             // self.range.min is the current ranges minimum that has been detected
@@ -739,11 +742,11 @@ import UIKit
             label.frame = CGRect(origin: CGPoint(x: position.x - label.frame.width / 2,
                                                  y: position.y + ref.dataPointLabelTopMargin),
                                  size: label.frame.size)
-
+            
             labelsView.subviews.lazy
                 .filter { $0.frame == label.frame }
                 .forEach { $0.removeFromSuperview() }
-
+            
             labelsView.addSubview(label)
             accessibilityElements = labelsView.subviews + (referenceLineView?.subviews ?? [])
         }
