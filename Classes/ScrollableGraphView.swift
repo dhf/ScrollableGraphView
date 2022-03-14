@@ -726,9 +726,7 @@ import UIKit
             }
             
             if let str = label.text, str.contains("\n") {
-                label.numberOfLines = 0
-            } else {
-                label.numberOfLines = 1
+                label.numberOfLines = str.numberOfLines
             }
             
             label.sizeToFit()
@@ -942,3 +940,10 @@ extension ScrollableGraphView : ScrollableGraphViewDataSource {
     }
 }
 #endif
+
+extension String {
+
+    var numberOfLines: Int {
+        return self.components(separatedBy: "\n").count
+    }
+}
